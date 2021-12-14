@@ -11,15 +11,20 @@ const MenuItem = require('./models/menuItem');
 const initialiseDb = require('./initialiseDb');
 initialiseDb();
 
+const port = 3000
 const app = express();
-const port = 3000;
 
-
-
+// serve static assets from the public/ folder
 app.use(express.static('public'));
 
-app.use(express.json());
+//Configures handlebars library to work well w/ Express + Sequelize model
+const handlebars = expressHandlebars({
+    handlebars : allowInsecurePrototypeAccess(Handlebars)
+})
 
+//Tell this express app we're using handlebars
+app.engine('handlebars', handlebars);
+app.set('view engine', 'handlebars')
 
 const restaurantChecks = [
     check('name').not().isEmpty().trim().escape(),
@@ -29,8 +34,13 @@ const restaurantChecks = [
 
 app.get('/restaurants', async (req, res) => {
     const restaurants = await Restaurant.findAll();
-    res.json(restaurants);
+    res.render('restaurants',{restaurants});
 });
+
+app.get('/restaurant-data', async (req,res) => {
+    const restaurants = await Restaurant.findAll();
+    res.json({restaurants})
+})
 
 app.get('/restaurants/:id', async (req, res) => {
     const restaurant = await Restaurant.findByPk(req.params.id, {include: {
@@ -38,8 +48,18 @@ app.get('/restaurants/:id', async (req, res) => {
             include: MenuItem
         }
     });
-    res.json(restaurant);
+    res.render('restaurant',{restaurant});
 });
+
+app.get('/menu/:id', async (req, res) => {
+    const restaurant = await Restaurant.findByPk(req.params.id, {include: {
+            model: Menu,
+            include: MenuItem
+        }
+    });
+    res.json(restaurant)
+});
+
 
 app.post('/restaurants', restaurantChecks, async (req, res) => {
     const errors = validationResult(req);
