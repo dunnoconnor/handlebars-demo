@@ -1,0 +1,9 @@
+<section>
+    {{!-- for each element in sauce list, show this html --}}
+    {{#each restaurants}}
+    <article >
+        <img class="item-img" src="{{image}}" width="80px"/>
+        <a class="btn" href="/restaurants/{{id}}"><h2>{{name}}</h2></a>
+    </article>
+    {{/each}}
+</section>

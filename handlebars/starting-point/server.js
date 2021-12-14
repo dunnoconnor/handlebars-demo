@@ -14,11 +14,19 @@ initialiseDb();
 const app = express();
 const port = 3000;
 
+// setup our templating engine
+const handlebars = expressHandlebars({
+    handlebars: allowInsecurePrototypeAccess(Handlebars)
+})
+app.engine('handlebars', handlebars)
+app.set('view engine', 'handlebars')
 
-
-app.use(express.static('public'));
-
+// support the parsing of incoming requests with urlencoded payloads (e.g. form POST)
+app.use(express.urlencoded({ extended: true }));
+// support the parsing of incoming requests with json payloads
 app.use(express.json());
+//static folder
+app.use(express.static('public'));
 
 
 const restaurantChecks = [
@@ -29,8 +37,18 @@ const restaurantChecks = [
 
 app.get('/restaurants', async (req, res) => {
     const restaurants = await Restaurant.findAll();
-    res.json(restaurants);
+    res.render('restaurants',{restaurants})
 });
+
+// app.get('/restaurants/:id', async (req, res) => {
+//     const restaurant = await Restaurant.findByPk(req.params.id, {include: {
+//             model: Menu,
+//             include: MenuItem
+//         }
+//     });
+//     console.log(restaurant.Menus[0].title)
+//     res.json(restaurant)
+// });
 
 app.get('/restaurants/:id', async (req, res) => {
     const restaurant = await Restaurant.findByPk(req.params.id, {include: {
@@ -38,8 +56,9 @@ app.get('/restaurants/:id', async (req, res) => {
             include: MenuItem
         }
     });
-    res.json(restaurant);
+    res.render('restaurant', {restaurant})
 });
+
 
 app.post('/restaurants', restaurantChecks, async (req, res) => {
     const errors = validationResult(req);

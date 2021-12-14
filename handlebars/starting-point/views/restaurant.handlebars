@@ -1,0 +1,17 @@
+<section>
+    <h1>{{restaurant.name}}</h1>
+    {{#each this.restaurant}}
+    <h1>{{restaurant.name}}</h1>
+        <article>
+            {{#each this.Menus}}
+                <h2>{{this.title}}</h2>
+                <div>
+                    {{#each this.MenuItems}}
+                        <div>{{this.name}}</div>
+                        <div>{{this.price}}</div>
+                    {{/each}}
+                </div>
+            {{/each}}
+        </article>
+    {{/each}}
+</section>
