@@ -1,4 +1,4 @@
-<section >
+{{!-- <section >
     <h1>{{restaurant.name}}</h1>
     {{#each this.restaurant}}
     <h1>{{restaurant.name}}</h1>
@@ -14,5 +14,14 @@
             {{/each}}
         </article>
     {{/each}}
-</section>
-<script src="/test.js"></script>
+</section> --}}
+
+<div>
+	<h1 id="{{restaurant.id}}" class="restaurant">{{restaurant.name}}</h1>
+	<img class="item-img" src="{{restaurant.image}}" />
+	<div>
+	<div id='menus'></div>
+	<script src="/scripts.js"></script>
+</div>
+	
+    
