@@ -5,7 +5,15 @@
             {{#each restaurants}}
             <div class="col">
                 <img class="item-img" src="{{image}}" width="80px"/>
-                <a class="btn" href="/restaurants/{{id}}"><h2>{{name}}</h2></a>
+                <div class="col"><a class="btn" href="/restaurants/{{id}}"><p>{{name}}</p></a></div>
+                <div class="row">
+                    <div class="col">
+                        <button id="view" class="btn-view">View</button>
+                    </div>
+                    <div class="col">
+                        <button id="{{id}}" class="btn-delete">Delete</button>
+                    </div>
+                </div>
             </div>
             {{/each}}
         </div>

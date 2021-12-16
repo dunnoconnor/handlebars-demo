@@ -24,7 +24,12 @@ app.set("view engine", "handlebars");
 
 app.use(express.static("public"));
 
-app.use(express.json());
+//body parser so req.body is not undefined
+//app.use(require('body-parser').urlencoded());
+//allow express to read json request bodies
+app.use(express.json())
+
+app.use(express.urlencoded())
 
 app.get("/web/restaurants", async (req, res) => {
     const restaurants = await Restaurant.findAll();
@@ -39,7 +44,7 @@ app.get("/web/restaurants/:id", async (req, res) => {
 const restaurantChecks = [
     check("name").not().isEmpty().trim().escape(),
     check("image").isURL(),
-    check("name").isLength({ max: 50 }),
+    check("name").isLength({ max: 200 }),
 ];
 
 app.get("/restaurants", async (req, res) => {
@@ -57,14 +62,37 @@ app.get("/restaurants/:id", async (req, res) => {
     res.render('restaurant', {restaurant});
 });
 
-app.post("/restaurants", restaurantChecks, async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+// app.post("/restaurants", restaurantChecks, async (req, res) => {
+//     const errors = validationResult(req);
+//     if (!errors.isEmpty()) {
+//         return res.status(400).json({ errors: errors.array() });
+//     }
+//     await Restaurant.create(req.body);
+//     res.sendStatus(201);
+// });
+
+//New Routes go here: 
+app.get('/add-restaurant', (req, res) => {
+    const alertMessage = ""
+    res.render('addRestaurant', {alertMessage})
+})
+
+//POST Route triggered by form submit action
+app.post('/add-restaurant', async(req, res) => {
+    
+    const newRestaurant = await Restaurant.create(req.body)
+   
+    let alertMessage = `${newRestaurant.name} is added.`
+    
+    const isFound = await Restaurant.findByPk(newRestaurant.id)
+    if(isFound){
+        res.render('addRestaurant', {alertMessage})
+        
+    } else {
+        alertMessage = 'Failed to add Restaurant'
+        res.render('addRestaurant', {alertMessage})
     }
-    await Restaurant.create(req.body);
-    res.sendStatus(201);
-});
+})
 
 app.delete("/restaurants/:id", async (req, res) => {
     await Restaurant.destroy({

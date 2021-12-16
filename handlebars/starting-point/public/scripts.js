@@ -1,7 +1,16 @@
-const restaurantId = document.querySelector("div > h1").id;
+const restaurantId = document.querySelector("div > h3").id;
+const btnDelete = document.querySelector('#btn-delete')
 
 //find element with the id menus
 let menuList = document.getElementById('menus')
+
+// btnDelete.addEventListener('click', async() => {
+//     const restId = document.querySelector('.btn-delete').id;
+//     let data = await fetch(`/restaurants/${id}`, {
+//         method: 'DELETE',
+//     })
+//     console.log(data)
+// })
 
 async function MenuItems(){
     //fetch the menu route from express

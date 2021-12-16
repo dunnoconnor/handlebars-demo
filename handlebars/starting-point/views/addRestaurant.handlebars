@@ -1,0 +1,18 @@
+<section >
+    {{!-- for each element in sauce list, show this html --}}
+    <div class="container">
+    <h2>Add New Restaurant</h2>
+    <form action="/add-restaurant" method="post">
+        <div class="form-group">
+            <label for="name">Restaurant Name</label>
+            <input name="name" type="text" class="name form-control" id="name">
+        </div>
+        <div class="form-group">
+            <label for="image">Image URL</label>
+            <input name="image" type="text" class="image form-control" id="image">
+        </div>
+        <h6>{{alertMessage}}</h6>
+        <button type="submit" class="btn btn-primary">Add Restaurant</button>
+    </form>
+    </div>
+</section>

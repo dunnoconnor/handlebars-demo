@@ -1,9 +1,29 @@
 body {
-    background-color:cadetblue;
+    background-color:#e3f2fd;
 }
 
+section{
+    margin-top: 3rem;
+}
 
 .item-img {
     width: 15rem;
     height: 10rem;
 }
+
+.header{
+    padding: 3rem;
+    font-size: 2rem;
+    background-color: #abc8c9;
+    text-align: center;
+}
+
+.navbar{
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.menu-items{
+    padding-left: 45rem;
+}
+
