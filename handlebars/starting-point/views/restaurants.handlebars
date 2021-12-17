@@ -1,21 +1,26 @@
 <section>
-    {{!-- for each element in sauce list, show this html --}}
+    {{!-- for each element in restaurant list, show this html --}}
+    <h6>{{alertMessage}}</h6>
     <div class="container">
         <div class="row">
             {{#each restaurants}}
             <div class="col">
                 <img class="item-img" src="{{image}}" width="80px"/>
-                <div class="col"><a class="btn" href="/restaurants/{{id}}"><p>{{name}}</p></a></div>
-                <div class="row">
-                    <div class="col">
-                        <button id="view" class="btn-view">View</button>
+                <div class="=row"><div class="col">{{name}}</div></div>
+                <div class="row no-gutters">
+                    <div class="col-4">
+                        <a class="btn" href="/restaurants/{{id}}"><button id="btn-view">View</button></a>
                     </div>
-                    <div class="col">
-                        <button id="{{id}}" class="btn-delete">Delete</button>
+                    <div class="col-4">
+                        <a class="btn" href="/update-restaurants/{{id}}"><button id="btn-{{id}}">Update</button></a>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn" href="#"><button id="btn-{{id}}" onclick="deleteRestaurants({{id}})">Delete</button></a>
                     </div>
                 </div>
             </div>
             {{/each}}
         </div>
     </div>
+    <script src="/restaurants.js"></script>
 </section>

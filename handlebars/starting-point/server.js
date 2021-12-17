@@ -24,12 +24,10 @@ app.set("view engine", "handlebars");
 
 app.use(express.static("public"));
 
-//body parser so req.body is not undefined
-//app.use(require('body-parser').urlencoded());
 //allow express to read json request bodies
 app.use(express.json())
-
-app.use(express.urlencoded())
+//body parser so req.body is not undefined
+app.use(express.urlencoded({extended:false}))
 
 app.get("/web/restaurants", async (req, res) => {
     const restaurants = await Restaurant.findAll();
@@ -62,15 +60,6 @@ app.get("/restaurants/:id", async (req, res) => {
     res.render('restaurant', {restaurant});
 });
 
-// app.post("/restaurants", restaurantChecks, async (req, res) => {
-//     const errors = validationResult(req);
-//     if (!errors.isEmpty()) {
-//         return res.status(400).json({ errors: errors.array() });
-//     }
-//     await Restaurant.create(req.body);
-//     res.sendStatus(201);
-// });
-
 //New Routes go here: 
 app.get('/add-restaurant', (req, res) => {
     const alertMessage = ""
@@ -81,17 +70,8 @@ app.get('/add-restaurant', (req, res) => {
 app.post('/add-restaurant', async(req, res) => {
     
     const newRestaurant = await Restaurant.create(req.body)
-   
-    let alertMessage = `${newRestaurant.name} is added.`
-    
-    const isFound = await Restaurant.findByPk(newRestaurant.id)
-    if(isFound){
-        res.render('addRestaurant', {alertMessage})
-        
-    } else {
-        alertMessage = 'Failed to add Restaurant'
-        res.render('addRestaurant', {alertMessage})
-    }
+
+    res.render('addRestaurant')
 })
 
 app.delete("/restaurants/:id", async (req, res) => {
@@ -100,17 +80,23 @@ app.delete("/restaurants/:id", async (req, res) => {
             id: req.params.id,
         },
     });
-    res.sendStatus(200);
+    
+    let alertMessage = `${Restaurant.name} is deleted.`
+    res.render('restaurants', {alertMessage})
 });
 
-app.put("/restaurants/:id", restaurantChecks, async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-    const restaurant = await Restaurant.findByPk(req.params.id);
-    await restaurant.update(req.body);
-    res.sendStatus(200);
+app.get('/update-restaurants/:id', (req, res) => {
+    let id = req.params.id
+    res.render('updateRestaurant',{id})
+})
+
+app.put('/update-restaurants/:id', async(req, res) => {
+    alert(req.params.id)
+    let updateRestaurant = await Restaurant.update(req.body, {
+        where: {id: req.params.id}
+    })
+    let id = req.params.id
+    res.render('updateRestaurant', {id})
 });
 
 app.patch("/restaurants/:id", async (req, res) => {

@@ -1,8 +1,8 @@
 <section >
     {{!-- for each element in restaurant list, show this html --}}
     <div class="container">
-    <h2>Add New Restaurant</h2>
-    <form action="/add-restaurant" method="GET">
+    <h2>Update Restaurant {{id}}</h2>
+    <form action="/update-restaurants/{{id}}" method="GET">
         <div class="form-group">
             <label for="name">Restaurant Name</label>
             <input name="name" type="text" class="name form-control" id="name">
@@ -11,8 +11,8 @@
             <label for="image">Image URL</label>
             <input name="image" type="text" class="image form-control" id="image">
         </div>
-        <button type="submit" class="btn btn-primary" onclick="addRestaurant()">Add Restaurant</button>
+        <button type="submit" class="btn btn-primary" onclick="updateRestaurants({{id}})">Update Restaurant</button>
     </form>
     </div>
-    <script src="/addRestaurant.js"></script>
+    <script src="/updateRestaurants.js"></script>
 </section>
