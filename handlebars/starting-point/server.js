@@ -91,7 +91,6 @@ app.get('/update-restaurants/:id', (req, res) => {
 })
 
 app.put('/update-restaurants/:id', async(req, res) => {
-    alert(req.params.id)
     let updateRestaurant = await Restaurant.update(req.body, {
         where: {id: req.params.id}
     })
