@@ -16,4 +16,5 @@ Sauce.init({
     timestamps: false,
 });
 
+// random comment to test something
 module.exports = {sequelize, Sauce};
